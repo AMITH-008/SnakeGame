@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT)/UNIT_SIZE;
-    static final int DELAY = 1000;
+    static final int DELAY = 75;
 
     final int[] x = new int[GAME_UNITS];
     final int[] y = new int[GAME_UNITS];
@@ -112,6 +112,20 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void checkCollision() {
 
+        //Check for head of snake hits its own body
+        for (int i=bodyParts ; i > 0;i--) {
+            if((x[0] == x[i]) && (y[0] == y[i])) {
+                running = false;
+            }
+        }
+
+        //Check for head of snake hits boundaries
+        if(x[0] == -1 || x[0] == SCREEN_WIDTH || y[0] == -1 || y[0] == SCREEN_HEIGHT) {
+            running = false;
+        }
+
+        if(!running) timer.stop();
+
     }
 
     public void gameOver(Graphics g) {
@@ -132,7 +146,20 @@ public class GamePanel extends JPanel implements ActionListener {
     public class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            super.keyPressed(e);
+            switch (e.getKeyCode()) {
+                case 37:
+                    if(direction != 'R') direction = 'L';
+                    break;
+                case 38:
+                    if( direction != 'D') direction = 'U';
+                    break;
+                case 39:
+                    if( direction != 'L') direction = 'R';
+                    break;
+                case 40:
+                    if( direction != 'T') direction = 'D';
+                    break;
+            }
         }
     }
 }
