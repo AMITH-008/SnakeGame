@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT)/UNIT_SIZE;
-    static final int DELAY = 75;
+    static final int DELAY = 1000;
 
     final int[] x = new int[GAME_UNITS];
     final int[] y = new int[GAME_UNITS];
@@ -121,6 +121,12 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(running) {
+            move();
+            checkApple();
+            checkCollision();
+        }
+        repaint();
     }
 
     public class MyKeyAdapter extends KeyAdapter {
